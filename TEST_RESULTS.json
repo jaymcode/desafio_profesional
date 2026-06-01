@@ -1,0 +1,149 @@
+{
+  "testExecutionReport": {
+    "metadata": {
+      "executionDate": "2026-05-24",
+      "executionTime": "2026-05-24T22:16:16-03:00",
+      "projectName": "centro-integral-backend",
+      "projectVersion": "0.0.1-SNAPSHOT",
+      "javaVersion": "17",
+      "mavenVersion": "3.x",
+      "springBootVersion": "3.2.0"
+    },
+    "buildStatus": {
+      "overall": "SUCCESS",
+      "buildDuration": "1.836s",
+      "phases": [
+        {
+          "name": "Clean",
+          "status": "SUCCESS",
+          "description": "Target directory cleared"
+        },
+        {
+          "name": "Resource Copying",
+          "status": "SUCCESS",
+          "description": "1 resource copied from src/main/resources"
+        },
+        {
+          "name": "Compilation",
+          "status": "SUCCESS",
+          "description": "6 source files compiled to target/classes"
+        },
+        {
+          "name": "Test Compilation",
+          "status": "SUCCESS",
+          "description": "No test files found - 0 tests compiled"
+        },
+        {
+          "name": "Test Execution",
+          "status": "SUCCESS",
+          "description": "Surefire test runner executed"
+        }
+      ]
+    },
+    "testSummary": {
+      "totalTests": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0,
+      "testCoverage": 0.0,
+      "status": "NO_TESTS_FOUND"
+    },
+    "projectStructure": {
+      "sourceFiles": 6,
+      "mainClasses": [
+        "CentroIntegralBackendApplication.java",
+        "DataLoader.java",
+        "ProfesionalController.java",
+        "Profesional.java",
+        "ProfesionalRepository.java",
+        "ProfesionalService.java"
+      ],
+      "testFiles": 0,
+      "testClasses": []
+    },
+    "dependencies": {
+      "testDependencies": [
+        {
+          "groupId": "org.springframework.boot",
+          "artifactId": "spring-boot-starter-test",
+          "version": "3.2.0",
+          "scope": "test",
+          "status": "AVAILABLE",
+          "includes": [
+            "JUnit 5",
+            "Mockito",
+            "AssertJ",
+            "Spring Test"
+          ]
+        }
+      ],
+      "productionDependencies": [
+        {
+          "groupId": "org.springframework.boot",
+          "artifactId": "spring-boot-starter-web",
+          "version": "3.2.0",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.springframework.boot",
+          "artifactId": "spring-boot-starter-data-jpa",
+          "version": "3.2.0",
+          "scope": "compile"
+        },
+        {
+          "groupId": "org.springframework.boot",
+          "artifactId": "spring-boot-starter-validation",
+          "version": "3.2.0",
+          "scope": "compile"
+        },
+        {
+          "groupId": "com.h2database",
+          "artifactId": "h2",
+          "scope": "runtime"
+        }
+      ]
+    },
+    "recommendations": {
+      "priority": "HIGH",
+      "action": "CREATE_TEST_FILES",
+      "details": [
+        {
+          "component": "ProfesionalService",
+          "type": "UNIT_TEST",
+          "priority": "HIGH",
+          "description": "Test business logic methods"
+        },
+        {
+          "component": "ProfesionalController",
+          "type": "UNIT_TEST",
+          "priority": "HIGH",
+          "description": "Test REST API endpoints and request/response handling"
+        },
+        {
+          "component": "ProfesionalRepository",
+          "type": "INTEGRATION_TEST",
+          "priority": "MEDIUM",
+          "description": "Test data persistence and custom queries"
+        },
+        {
+          "component": "Full API",
+          "type": "INTEGRATION_TEST",
+          "priority": "MEDIUM",
+          "description": "End-to-end integration tests with @SpringBootTest"
+        }
+      ]
+    },
+    "nextSteps": [
+      "Create unit test classes for service layer",
+      "Create unit test classes for controller layer",
+      "Create integration tests for API endpoints",
+      "Implement test data fixtures",
+      "Configure test properties file (application-test.properties)",
+      "Add test coverage reporting (JaCoCo)",
+      "Configure CI/CD pipeline for automated testing"
+    ],
+    "command": "mvn clean test",
+    "commandOutput": "BUILD SUCCESS"
+  }
+}

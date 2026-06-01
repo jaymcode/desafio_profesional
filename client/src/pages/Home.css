@@ -1,0 +1,395 @@
+.home {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  width: 100%;
+  background: linear-gradient(135deg, #00313e 0%, #003d52 100%);
+  color: white;
+  padding: 100px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: rgba(104, 233, 186, 0.1);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-family: 'Saira', sans-serif;
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.9;
+  letter-spacing: 0.3px;
+}
+
+.search-section {
+  width: 100%;
+  background-color: white;
+  padding: 60px 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.search-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.buscador {
+  display: flex;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #68e9ba;
+  box-shadow: 0 0 0 3px rgba(104, 233, 186, 0.1);
+}
+
+.disciplina-section {
+  width: 100%;
+  background-color: white;
+  padding: 60px 50px;
+}
+
+.disciplina-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.disciplina-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.disciplina-btn {
+  padding: 10px 24px;
+  background-color: white;
+  color: #00313e;
+  text-transform: uppercase;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.disciplina-btn:hover {
+  border-color: #00313e;
+  color: #00313e;
+  transition: all 0.3s ease;
+}
+
+.disciplina-btn.active {
+  background-color: #00313e;
+  color: white;
+  border-color: #00313e;
+}
+
+.recomendaciones {
+  width: 100%;
+  padding: 20px 50px;
+  background-color: white;
+}
+
+.section-title {
+  font-family: 'Saira', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 50px;
+  color: #00313e;
+  letter-spacing: -0.5px;
+}
+
+.profesionales-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto 60px;
+}
+
+.profesional-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.profesional-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+}
+
+.card-image-wrapper {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.profesional-card:hover .card-image {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-family: 'Saira', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #00313e;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.card-profession {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #68e9ba;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 0.2px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.view-detail {
+  color: #00313e;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease;
+}
+
+.profesional-card:hover .view-detail {
+  color: #68e9ba;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.pagination-btn {
+  padding: 10px 20px;
+  background-color: #68e9ba;
+  color: #00313e;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #52d9a4;
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-family: 'DM Sans', sans-serif;
+  color: #00313e;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 1024px) {
+  .search-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-title {
+    font-size: 42px;
+  }
+  
+  .profesionales-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .disciplina-menu {
+    gap: 10px;
+  }
+
+  .disciplina-btn {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 20px;
+  }
+  
+  .hero-title {
+    font-size: 32px;
+  }
+  
+  .hero-subtitle {
+    font-size: 16px;
+  }
+  
+  .search-section {
+    padding: 30px 20px;
+  }
+  
+  .disciplina-section {
+    padding: 30px 20px;
+  }
+
+  .disciplina-menu {
+    gap: 8px;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 0 0 8px 0;
+  }
+
+  .disciplina-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  
+  .recomendaciones {
+    padding: 40px 20px;
+  }
+  
+  .section-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .profesionales-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  
+  .card-image-wrapper {
+    height: 250px;
+  }
+  
+  .card-content {
+    padding: 15px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .card-image-wrapper {
+    height: 250px;
+  }
+
+  .pagination {
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  .pagination-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+
+}

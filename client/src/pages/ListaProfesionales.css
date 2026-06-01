@@ -1,0 +1,108 @@
+.lista-profesionales {
+  width: 100%;
+  background-color: #f8f8f8;
+  padding: 40px 50px;
+  min-height: calc(100vh - 160px);
+}
+
+.admin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.lista-profesionales h1 {
+  font-family: 'Saira', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #00313e;
+  margin-bottom: 30px;
+  letter-spacing: -0.5px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f0f0f0;
+}
+
+th {
+  padding: 15px;
+  text-align: left;
+  font-family: 'Saira', sans-serif;
+  font-weight: 700;
+  color: #00313e;
+  border-bottom: 2px solid #e0e0e0;
+  letter-spacing: 0.2px;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: 'DM Sans', sans-serif;
+  color: #333;
+}
+
+tr:hover {
+  background-color: #f8f8f8;
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+}
+
+.no-data {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .lista-profesionales {
+    padding: 20px;
+  }
+  
+  .admin-content {
+    padding: 20px;
+  }
+  
+  .lista-profesionales h1 {
+    font-size: 24px;
+  }
+  
+  th, td {
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  .delete-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}
