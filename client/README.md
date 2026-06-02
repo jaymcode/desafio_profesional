@@ -1,6 +1,6 @@
-# Centro Integral Multidisciplinario - Aplicación Web de Reserva de Turnos
+# Centro Integral Multidisciplinario - Sistema de Gestión de Profesionales
 
-Aplicación web completa y moderna para la gestión y reserva de turnos en un Centro Integral Multidisciplinario con profesionales en Kinesiología, Fisiatría, Fonoaudiología, Psicopedagogía y Pediatría.
+Una aplicación web moderna y responsiva para la gestión centralizada de profesionales en un Centro Integral Multidisciplinario. La plataforma permite la visualización, búsqueda y administración de profesionales en las disciplinas de Kinesiología, Fisiatría, Fonoaudiología, Psicopedagogía y Pediatría.
 
 ## 🎯 Características Principales
 
@@ -12,13 +12,13 @@ Aplicación web completa y moderna para la gestión y reserva de turnos en un Ce
 
 ## ✅ Requisitos Previos
 
-Antes de comenzar, asegurate de tener instalado:
+Antes de comenzar, asegúrese de tener instalado:
 
 - **Node.js** 16+ (incluye npm)
 - **Java JDK** 17 o superior
 - **Maven** 3.6+
 - **Git** (opcional, para clonar el repositorio)
-- Un navegador moderno (Chrome, Firefox, Edge, Safari)
+- Navegador moderno (Chrome, Firefox, Edge, Safari)
 
 ## 🛠️ Tecnologías
 
@@ -36,7 +36,7 @@ Antes de comenzar, asegurate de tener instalado:
 - **Spring Data JPA**: ORM para base de datos
 - **H2 Database**: Base de datos en memoria (desarrollo local)
 - **Maven**: Gestor de dependencias
-- **Nota**: Backend se ejecuta en repositorio separado en puerto 8080
+- **Nota**: El backend se ejecuta en un repositorio separado en el puerto 8080
 
 ## 🎨 Paleta de Colores
 
@@ -50,35 +50,72 @@ Blanco:      #ffffff
 
 ## 📁 Estructura del Proyecto
 
+### Frontend (React + Vite)
 ```
-Frontend (React):
+client/
 ├── src/
+│   ├── api/
+│   │   └── axiosConfig.js              # Configuración de cliente HTTP
 │   ├── components/
-│   │   ├── Header.jsx / Header.css
-│   │   └── Footer.jsx / Footer.css
+│   │   ├── Header.jsx / Header.css     # Navegación principal
+│   │   ├── Footer.jsx / Footer.css     # Pie de página
+│   │   └── logo.jsx                    # Logo reutilizable
 │   ├── pages/
-│   │   ├── Home.jsx / Home.css
-│   │   ├── ProfesionalDetail.jsx / ProfesionalDetail.css
-│   │   ├── AdminPanel.jsx / AdminPanel.css
-│   │   ├── ListaProfesionales.jsx / ListaProfesionales.css
-│   │   └── AgregarProfesional.jsx / AgregarProfesional.css
-│   ├── App.jsx / App.css
-│   └── main.jsx
-├── index.html
-├── package.json
-└── vite.config.js
+│   │   ├── Home.jsx / Home.css         # Página de inicio con buscador
+│   │   ├── ProfesionalDetail.jsx / ProfesionalDetail.css   # Detalle con galería
+│   │   ├── AdminPanel.jsx / AdminPanel.css                 # Panel de administración
+│   │   ├── ListaProfesionales.jsx / ListaProfesionales.css # Tabla de profesionales
+│   │   └── AgregarProfesional.jsx / AgregarProfesional.css # Formulario de creación
+│   ├── utils/
+│   │   ├── errorHandler.js             # Manejo centralizado de errores
+│   │   └── imageValidator.js           # Validación de imágenes
+│   ├── assets/
+│   │   └── img/                        # 41 imágenes de profesionales
+│   ├── App.jsx / App.css               # Componente principal
+│   └── main.jsx                        # Punto de entrada
+├── public/                              # Archivos estáticos
+├── index.html                          # HTML base
+├── package.json                        # Dependencias npm
+├── vite.config.js                      # Configuración de Vite
+├── eslint.config.js                    # Configuración de ESLint
+└── README.md                           # Documentación frontend
+```
 
-Backend (Java):
-├── src/main/java/com/centrointegral/backend/
-│   ├── entity/Profesional.java
-│   ├── repository/ProfesionalRepository.java
-│   ├── service/ProfesionalService.java
-│   ├── controller/ProfesionalController.java
-│   ├── DataLoader.java
-│   └── CentroIntegralBackendApplication.java
-├── src/main/resources/
-│   └── application.properties
-└── pom.xml
+### Backend (Spring Boot + Maven)
+```
+.
+├── src/
+│   ├── main/
+│   │   ├── java/com/centrointegral/backend/
+│   │   │   ├── config/
+│   │   │   │   ├── SecurityHeaderConfig.java  # Configuración de headers de seguridad
+│   │   │   │   └── WebConfig.java            # Configuración CORS y web
+│   │   │   ├── controller/
+│   │   │   │   └── ProfesionalController.java # Endpoints REST API
+│   │   │   ├── entity/
+│   │   │   │   └── Profesional.java          # Modelo de datos JPA
+│   │   │   ├── repository/
+│   │   │   │   └── ProfesionalRepository.java # Acceso a base de datos
+│   │   │   ├── service/
+│   │   │   │   └── ProfesionalService.java    # Lógica de negocio
+│   │   │   ├── util/
+│   │   │   │   ├── ErrorResponse.java         # DTO para respuestas de error
+│   │   │   │   └── ValidationUtil.java        # Utilidades de validación
+│   │   │   ├── CentroIntegralBackendApplication.java  # Clase principal Spring Boot
+│   │   │   └── DataLoader.java                # Cargador de datos iniciales
+│   │   └── resources/
+│   │       └── application.properties         # Configuración de la aplicación
+│   └── test/
+│       └── java/com/centrointegral/backend/
+│           ├── repository/
+│           │   └── ProfesionalRepositoryTest.java  # Tests de repositorio
+│           ├── service/
+│           │   └── ProfesionalServiceTest.java     # Tests de servicio
+│           ├── controller/                        # (Vacío) - Para tests de controlador
+│           └── integration/                       # (Vacío) - Para tests de integración
+├── target/                              # Archivos compilados
+├── pom.xml                             # Configuración Maven
+└── TESTING_REPORT.md                   # Reporte de pruebas
 ```
 
 ## 🚀 Instalación y Ejecución
@@ -109,24 +146,33 @@ cd <ruta-del-frontend>/centro-integral-multidisciplinario
 # Instalar dependencias (solo en primera ejecución)
 npm install
 
-# Ejecutar servidor de desarrollo
+# Ejecutar servidor de desarrollo con hot reload
 npm run dev
+
+# Compilar para producción
+npm run build
 ```
 
 **Resultado:**
 - Frontend accesible en: http://localhost:5173
+- Hot module reloading habilitado
 
 ### ⚙️ Configuración del Entorno
 
 **Backend (application.properties):**
-- Spring escucha en puerto `8080`
-- CORS habilitado para desarrollo local
-- H2 reinicia con datos de ejemplo en cada ejecución
+- Spring escucha en el puerto `8080`
+- CORS habilitado para desarrollo local (localhost:5173)
+- H2 se reinicia con datos de ejemplo en cada ejecución
+- Esquema de base de datos se crea y destruye automáticamente (`ddl-auto=create-drop`)
 
-**Frontend (.env opcional):**
+**Frontend (variables de entorno):**
 ```
 VITE_API_URL=http://localhost:8080/api
+VITE_NODE_ENV=development
 ```
+- Implementado en `.env` - Los URLs se cargan desde variables de entorno
+- El cliente axios (`axiosConfig.js`) utiliza `VITE_API_URL` para configurar la base URL
+- Fallback a `http://localhost:8080/api` si no está definida la variable
 
 ## 📡 API REST - Endpoints Disponibles
 
@@ -134,14 +180,20 @@ VITE_API_URL=http://localhost:8080/api
 
 ### Listado de Endpoints Implementados
 
-| Método | Endpoint | Descripción | Ejemplo |
-|--------|----------|-------------|---------|
-| GET | `/` | Obtener todos los profesionales | `GET /api/profesionales` |
-| GET | `/{id}` | Obtener detalle de profesional por ID | `GET /api/profesionales/1` |
-| POST | `/` | Crear nuevo profesional | `POST /api/profesionales` |
-| DELETE | `/{id}` | Eliminar profesional por ID | `DELETE /api/profesionales/1` |
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/` | Obtener todos los profesionales |
+| GET | `/{id}` | Obtener detalle de profesional por ID |
+| POST | `/` | Crear nuevo profesional |
+| DELETE | `/{id}` | Eliminar profesional por ID |
 
-**Nota sobre Paginación:** La aplicación frontend implementa **paginación del lado del cliente** (4 profesionales por página). Todos los profesionales se obtienen con un único GET `/api/profesionales` y se paginan en el navegador.
+**Endpoints adicionales disponibles (no utilizados actualmente por el frontend):**
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/paged` | Obtener profesionales con paginación (parámetros: page, size) |
+| GET | `/random` | Obtener profesionales aleatorios (parámetro: limit)
+
+**Nota sobre Paginación**: La aplicación implementa **paginación del lado del cliente** (4 profesionales por página). Todos los profesionales se obtienen con una única solicitud GET `/api/profesionales` y se paginan en el navegador.
 
 ### Profesiones Válidas
 
@@ -210,9 +262,9 @@ axios.delete('http://localhost:8080/api/profesionales/1')
 
 ## 📱 Responsive Design
 
-- **Desktop (1024px+)**: Diseño completo con sidebar, grid de 4 columnas
-- **Tablet (768px - 1023px)**: Grid de 2-3 columnas, menús adaptados
-- **Mobile (<768px)**: Single column, menú mobile, panel admin deshabilitado
+- **Desktop (1024px+)**: Diseño completo con sidebar, grid de 4 columnas, navegación horizontal
+- **Tablet (768px - 1023px)**: Grid de 2-3 columnas, menús adaptados, elementos redimensionados
+- **Mobile (<768px)**: Single column, menú hamburguesa, panel de administración deshabilitado
 
 ## ✨ Features Implementadas
 
@@ -314,46 +366,203 @@ JSON Response ← Frontend Procesa y Actualiza UI
 ## 📝 Notas de Desarrollo
 
 ### Base de Datos
-- **Motor**: H2 (en memoria)
-- **Reinicio**: Cada vez que ejecuta el backend (configuración: `spring.jpa.hibernate.ddl-auto=create-drop`)
-- **Datos iniciales**: Se cargan automáticamente desde `DataLoader.java`
-- **Consola**: Accesible en http://localhost:8080/h2-console
+- **Motor**: H2 Database (en memoria)
+- **Modo**: Embebido en aplicación Spring Boot
+- **Consola**: Accesible en http://localhost:8080/h2-console (usuario: `sa`, sin contraseña)
+- **DDL Strategy**: `ddl-auto=create-drop` (recrea esquema en cada inicio)
+- **Datos Iniciales**: Cargados automáticamente desde `DataLoader.java` en cada ejecución
+- **Persistencia**: Los datos se pierden al reiniciar el backend (comportamiento esperado para desarrollo)
 
 ### Configuración CORS
-- CORS habilitado solo para `http://localhost:5173` (desarrollo)
-- Método: `@CrossOrigin` en `ProfesionalController`
-- Para producción: Configurar en `SecurityConfig` o `WebConfig`
+- **Habilitado para**: `http://localhost:5173` (desarrollo local)
+- **Método**: Anotación `@CrossOrigin` en `ProfesionalController`
+- **Headers permitidos**: Content-Type, Authorization
+- **Métodos permitidos**: GET, POST, DELETE, OPTIONS
+- **Para producción**: Configurar en `WebConfig.java` con dominios específicos
+
+### Configuración de Seguridad
+- **Headers de Seguridad**: Implementados en `SecurityHeaderConfig.java`
+- **Validaciones**:
+  - Nombre de profesional: Único en base de datos (constraint UNIQUE)
+  - Campos requeridos: Validados tanto en cliente como en servidor
+  - Disciplinas: Solo 5 opciones válidas
+  - Imágenes: Validadas por tipo y tamaño en cliente
 
 ### Variables de Entorno
-- No se utilizan actualmente (URLs hardcodeadas en código)
-- Se recomienda usar archivo `.env` en frontend para URLs de API
+- **Frontend**: Implementado con archivo `.env`
+  - `VITE_API_URL`: URL base de la API (`http://localhost:8080/api`)
+  - `VITE_NODE_ENV`: Ambiente de ejecución (`development`)
+  - Configuración cargada en `axiosConfig.js` para todas las peticiones HTTP
+- **Backend**: 
+  - Puerto: 8080 (configurado en `application.properties`)
+  - Perfil activo: `dev` (configurado en pom.xml)
+  - Base de datos: H2 (embedded)
+
+### Archivos de Configuración Clave
+
+**Frontend:**
+- `vite.config.js` - Configuración del build tool
+- `eslint.config.js` - Reglas de linting
+- `package.json` - Dependencias y scripts npm
+
+**Backend:**
+- `pom.xml` - Dependencias Maven y plugins
+- `application.properties` - Propiedades de Spring Boot
+- `application-test.properties` - Configuración para pruebas
+
+### Dependencias Principales
+
+**Frontend:**
+- React 19
+- React Router 7
+- Axios
+- Vite
+- ESLint
+
+**Backend:**
+- Spring Boot 3.2
+- Spring Data JPA
+- H2 Database
+- JUnit 5 (para testing)
+- Mockito (para mocking)
+
+### Git y Versionado
+- **Repositorio**: https://github.com/jaymcode/desafio_profesional
+- **Rama principal**: `main`
+- **Estructura**: Monorepo con backend en root y frontend en carpeta `client/`
+- **Historial**: Pushes realizados con commits descriptivos
+
+### Monitoreo y Debugging
+
+**Backend:**
+- Logs en consola (por defecto en WARN)
+- Para debug, cambiar en application.properties: `logging.level.com.centrointegral=DEBUG`
+- H2 Console para inspeccionar DB directamente
+
+**Frontend:**
+- React DevTools en navegador
+- Console logs en development
+- Network tab para inspeccionar requests/responses
+- Componentes con PropTypes opcionales para validación
 
 ## 🐛 Guía de Desarrollo
 
-### Estructura del Proyecto Frontend
+### Frontend - Componentes y Páginas
 
-```javascript
-// components/Header.jsx - Navegación principal
-// components/Footer.jsx - Pie de página
+**Componentes Globales (`components/`):**
+- **Header.jsx**: Navegación fija con logo, lema, botones de "Crear cuenta" e "Iniciar sesión"
+- **Footer.jsx**: Pie de página con copyright dinámico y enlaces a redes sociales
+- **logo.jsx**: Componente reutilizable del logo
 
-// pages/Home.jsx - Página de inicio con buscador y filtros
-// pages/ProfesionalDetail.jsx - Detalle de profesional con galería
-// pages/AdminPanel.jsx - Panel de administración
-// pages/ListaProfesionales.jsx - Listado en tabla
-// pages/AgregarProfesional.jsx - Formulario de creación
+**Páginas (`pages/`):**
+- **Home.jsx**: Página de inicio con:
+  - Buscador en tiempo real de profesionales
+  - Filtros por disciplina (5 opciones)
+  - Grid de 4 profesionales por página
+  - Paginación completa (Inicio, Anterior, Siguiente, Final)
+  
+- **ProfesionalDetail.jsx**: Detalle de profesional con:
+  - Información del profesional (nombre, descripción, disciplina)
+  - Galería interactiva con imagen principal + 4 thumbnails
+  - Galería expandible de todas las imágenes
+  - Botón "Reservar turno"
+  
+- **ListaProfesionales.jsx**: Listado en tabla con:
+  - Tabla con columnas: ID, Nombre, Profesión
+  - Ordenamiento por columnas
+  - Paginación integrada
+  - Botones de acción (editar, eliminar)
+  
+- **AgregarProfesional.jsx**: Formulario de creación con:
+  - Validación de campos requeridos
+  - Validación de nombres únicos
+  - Manejo de imágenes múltiples
+  - Mensajes de error descriptivos
+  
+- **AdminPanel.jsx**: Panel de administración con:
+  - Menú de opciones principales
+  - Navegación entre vistas CRUD
+  - Mensaje de no disponibilidad en móviles
 
-// App.jsx - Router y composición de páginas
-```
+**Utilidades (`utils/`):**
+- **errorHandler.js**: Manejo centralizado de errores con mensajes descriptivos
+- **imageValidator.js**: Validación de imágenes (tipo, tamaño, dimensiones)
 
-### Estructura del Proyecto Backend
+**API (`api/`):**
+- **axiosConfig.js**: Cliente HTTP preconfigurado con:
+  - Base URL del backend
+  - Interceptores para manejo de errores
+  - Configuración de headers
 
-```java
-// entity/Profesional.java - Modelo de datos
-// repository/ProfesionalRepository.java - Acceso a DB
-// service/ProfesionalService.java - Lógica de negocio
-// controller/ProfesionalController.java - Endpoints REST
-// DataLoader.java - Carga de datos iniciales
-```
+### Backend - Arquitectura en Capas
+
+**Entity (`entity/`):**
+- **Profesional.java**: Modelo de datos con anotaciones JPA
+  - Atributos: id, nombre, descripcion, profesion, imagenes
+  - Validaciones: nombre único, campos requeridos
+  - Relaciones y restricciones de base de datos
+
+**Repository (`repository/`):**
+- **ProfesionalRepository.java**: Interfaz JPA que extiende `JpaRepository`
+  - Métodos: findAll(), findById(), save(), delete()
+  - Método personalizado: findByNombre() para validar duplicados
+
+**Service (`service/`):**
+- **ProfesionalService.java**: Lógica de negocio
+  - Validaciones de dominio (nombre, descripción, disciplina)
+  - Sanitización de entrada para prevenir XSS
+  - Validación y filtrado de URLs de imágenes
+  - Manejo de excepciones
+  - Métodos: obtener todos, obtener por ID, obtener paginado, obtener aleatorios, crear, eliminar
+
+**Controller (`controller/`):**
+- **ProfesionalController.java**: Endpoints REST
+  - GET `/api/profesionales` - Obtener todos los profesionales
+  - GET `/api/profesionales/{id}` - Obtener profesional por ID
+  - GET `/api/profesionales/paged` - Obtener profesionales paginados
+  - GET `/api/profesionales/random` - Obtener profesionales aleatorios
+  - POST `/api/profesionales` - Crear nuevo profesional
+  - DELETE `/api/profesionales/{id}` - Eliminar profesional
+  - Anotación @CrossOrigin para CORS habilitado
+
+**Config (`config/`):**
+- **WebConfig.java**: Configuración CORS y beans
+- **SecurityHeaderConfig.java**: Headers de seguridad
+
+**Util (`util/`):**
+- **ErrorResponse.java**: DTO para respuestas de error consistentes
+- **ValidationUtil.java**: Métodos utilitarios de validación
+
+**DataLoader.java**: Cargador de datos iniciales
+- Carga 8 profesionales de ejemplo al iniciar (3 Kinesiología, 1 Fisiatría, 1 Fonoaudiología, 1 Psicopedagogía, 2 Pediatría)
+- Ejecuta automáticamente al iniciar el backend
+- Solo carga datos si la base de datos está vacía
+
+### Testing
+
+**Pruebas Unitarias (`src/test/`):**
+- **ProfesionalRepositoryTest.java**: Tests de acceso a base de datos
+  - Validación de persistencia
+  - Pruebas de queries personalizadas
+  
+- **ProfesionalServiceTest.java**: Tests de lógica de negocio
+  - Validaciones de reglas de negocio
+  - Comportamiento de métodos del servicio
+
+**Pruebas de Controlador**: Estructura lista, sin implementación actual
+
+**Pruebas de Integración**: Estructura lista, sin implementación actual
+
+### Flujo de Desarrollo Típico
+
+1. **Usuario accede al frontend** → React renderiza UI
+2. **Usuario interactúa** (busca, filtra, CRUD)
+3. **axios realiza HTTP request** a través de axiosConfig
+4. **Backend recibe** en ProfesionalController
+5. **Service procesa** la lógica de negocio
+6. **Repository accede** a H2 Database
+7. **JSON response** se envía al frontend
+8. **Frontend actualiza** la interfaz con los datos
 
 ## 🚦 Solución de Problemas
 
@@ -362,9 +571,9 @@ JSON Response ← Frontend Procesa y Actualiza UI
 **Causa**: Backend no está ejecutándose  
 **Solución**:
 ```bash
-# Asegurate que estés en el directorio del backend
+# Asegúrese de estar en el directorio del backend
 cd <ruta-del-backend>/centro-integral-backend
-# Ejecutá el backend
+# Ejecute el backend
 mvn spring-boot:run
 ```
 
@@ -372,18 +581,18 @@ mvn spring-boot:run
 
 **Causa**: Frontend no puede conectarse al backend  
 **Solución**:
-1. Verificá que el backend está en http://localhost:8080
-2. Abrí F12 → Network → Buscá request fallido → Verificá URL
-3. Verificá que no hay firewall bloqueando puerto 8080
+1. Verifique que el backend está ejecutándose en http://localhost:8080
+2. Abra F12 → Network → Busque la solicitud fallida → Verifique la URL
+3. Verifique que no hay firewall bloqueando el puerto 8080
 
 ### Error: "Port 5173 already in use"
 
-**Causa**: Otro proceso usa puerto 5173  
+**Causa**: Otro proceso está utilizando el puerto 5173  
 **Solución**:
 ```bash
-# En Windows, encontrar proceso en puerto 5173
+# En Windows, encuentre el proceso en puerto 5173
 netstat -ano | findstr :5173
-# Matar proceso (reemplaza PID con el número obtenido)
+# Finalice el proceso (reemplace PID con el número obtenido)
 taskkill /PID <PID> /F
 ```
 
@@ -391,35 +600,52 @@ taskkill /PID <PID> /F
 
 **Causa**: Configuración de H2 no habilitada  
 **Solución**:
-1. Verificá `application.properties`:
+1. Verifique en `application.properties`:
    ```properties
    spring.h2.console.enabled=true
    ```
-2. Usá credenciales: Usuario `sa` sin contraseña
+2. Utilice credenciales: Usuario `sa` sin contraseña
 
 ### Cambios en el frontend no se reflejan en el navegador
 
 **Causa**: Hot reload no configurado correctamente  
 **Solución**:
-1. Verificá que ejecutás `npm run dev` (no `npm run build`)
-2. Abrí DevTools (F12) y deshabilitá caché
-3. Reiniciá servidor: Ctrl+C en terminal y `npm run dev` nuevamente
+1. Asegúrese de ejecutar `npm run dev` (no `npm run build`)
+2. Abra DevTools (F12) y deshabilite la caché del navegador
+3. Reinicie el servidor: Ctrl+C en la terminal y ejecute `npm run dev` nuevamente
 
 ### Base de datos vacía después de reiniciar backend
 
-**Causa**: Configuración `ddl-auto=create-drop` elimina y recrea tablas  
+**Causa**: Configuración `ddl-auto=create-drop` elimina y recrea las tablas  
 **Solución (para desarrollo)**:
-- Esto es normal y esperado
-- `DataLoader.java` carga automáticamente datos de ejemplo
-- Si necesitás persistencia, cambiá a `ddl-auto=update`
+- Este es el comportamiento esperado y correcto
+- `DataLoader.java` carga automáticamente los datos de ejemplo
+- Si necesita persistencia entre reinicios, cambie a `ddl-auto=update`
 
 ### Errores de validación "Nombre ya existe"
 
-**Causa**: Intentando crear profesional con nombre duplicado  
+**Causa**: Intento de crear un profesional con nombre duplicado  
 **Solución**:
-1. En frontend: El formulario no permite duplicados (JS)
-2. En backend: Base de datos rechaza (constraint único)
-3. Usá nombres diferentes o eliminá el profesional existente
+1. En frontend: El formulario rechaza duplicados (validación JS)
+2. En backend: La base de datos también rechaza (constraint único)
+3. Utilice nombres diferentes o elimine el profesional existente
 
+## ✅ Testing
 
-Última actualización: Mayo 2026
+### Backend (Java)
+```bash
+# Ejecutar todas las pruebas unitarias e integración
+cd <ruta-del-backend>/centro-integral-backend
+mvn test
+
+# Ejecutar pruebas de un módulo específico
+mvn test -Dtest=ProfesionalServiceTest
+
+# Ejecutar con reporte de cobertura
+mvn test jacoco:report
+```
+
+---
+
+**Última actualización**: Mayo 2026  
+**Versión**: 1.0.0  
