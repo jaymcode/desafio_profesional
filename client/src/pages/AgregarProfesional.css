@@ -77,6 +77,18 @@
   letter-spacing: 0.2px;
 }
 
+.input-error {
+  border-color: #f44336 !important;
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.08) !important;
+}
+
+.field-error {
+  color: #c62828;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  margin-top: 2px;
+}
+
 .error-message {
   background-color: #ffebee;
   color: #c62828;
