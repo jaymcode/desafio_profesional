@@ -1,6 +1,9 @@
 package com.centrointegral.backend.service;
 
+import com.centrointegral.backend.dto.ProfesionalRequestDTO;
+import com.centrointegral.backend.dto.ProfesionalResponseDTO;
 import com.centrointegral.backend.entity.Profesional;
+import com.centrointegral.backend.exception.DuplicateProfesionalException;
 import com.centrointegral.backend.repository.ProfesionalRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,13 +36,19 @@ class ProfesionalServiceTest {
     private ProfesionalService profesionalService;
 
     private Profesional profesional;
+    private ProfesionalRequestDTO requestDTO;
     private List<String> imagenes;
 
     @BeforeEach
     void setUp() {
         imagenes = Arrays.asList("image1.jpg", "image2.jpg");
-        profesional = new Profesional("Dr. Juan Perez", "Cardiólogo especialista", "Cardiología", imagenes);
+        profesional = new Profesional("Dr. Juan Perez", "Cardiólogo especialista", "Kinesiología", imagenes);
         profesional.setId(1L);
+        requestDTO = new ProfesionalRequestDTO();
+        requestDTO.setNombre("Dr. Juan Perez");
+        requestDTO.setDescripcion("Cardiólogo especialista");
+        requestDTO.setProfesion("Kinesiología");
+        requestDTO.setImagenes(imagenes);
     }
 
     @Test
@@ -53,13 +62,14 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findAll()).thenReturn(profesionales);
 
         // Act
-        List<Profesional> result = profesionalService.getAllProfesionales();
+        List<ProfesionalResponseDTO> result = profesionalService.getAllProfesionales();
 
         // Assert
         assertThat(result)
                 .isNotNull()
                 .hasSize(2)
-                .contains(profesional);
+                .extracting(ProfesionalResponseDTO::getNombre)
+                .containsExactlyInAnyOrder("Dr. Juan Perez", "Dra. Maria Gonzalez");
         verify(profesionalRepository, times(1)).findAll();
     }
 
@@ -70,7 +80,7 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findAll()).thenReturn(Arrays.asList());
 
         // Act
-        List<Profesional> result = profesionalService.getAllProfesionales();
+        List<ProfesionalResponseDTO> result = profesionalService.getAllProfesionales();
 
         // Assert
         assertThat(result).isNotNull().isEmpty();
@@ -86,11 +96,13 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findAll(any(Pageable.class))).thenReturn(page);
 
         // Act
-        Page<Profesional> result = profesionalService.getProfesionalesPaged(0, 10);
+        Page<ProfesionalResponseDTO> result = profesionalService.getProfesionalesPaged(0, 10);
 
         // Assert
         assertThat(result).isNotNull();
-        assertThat(result.getContent()).hasSize(1).contains(profesional);
+        assertThat(result.getContent()).hasSize(1)
+                .extracting(ProfesionalResponseDTO::getNombre)
+                .containsExactly("Dr. Juan Perez");
         assertThat(result.getNumber()).isZero();
         assertThat(result.getSize()).isEqualTo(10);
         verify(profesionalRepository, times(1)).findAll(any(Pageable.class));
@@ -103,12 +115,15 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findById(1L)).thenReturn(Optional.of(profesional));
 
         // Act
-        Optional<Profesional> result = profesionalService.getProfesionalById(1L);
+        Optional<ProfesionalResponseDTO> result = profesionalService.getProfesionalById(1L);
 
         // Assert
         assertThat(result)
                 .isPresent()
-                .contains(profesional);
+                .hasValueSatisfying(dto -> {
+                    assertThat(dto.getId()).isEqualTo(1L);
+                    assertThat(dto.getNombre()).isEqualTo("Dr. Juan Perez");
+                });
         verify(profesionalRepository, times(1)).findById(1L);
     }
 
@@ -119,7 +134,7 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findById(999L)).thenReturn(Optional.empty());
 
         // Act
-        Optional<Profesional> result = profesionalService.getProfesionalById(999L);
+        Optional<ProfesionalResponseDTO> result = profesionalService.getProfesionalById(999L);
 
         // Assert
         assertThat(result).isEmpty();
@@ -131,17 +146,18 @@ class ProfesionalServiceTest {
     void testSaveProfesionalSuccess() throws Exception {
         // Arrange
         when(profesionalRepository.existsByNombre("Dr. Juan Perez")).thenReturn(false);
-        when(profesionalRepository.save(profesional)).thenReturn(profesional);
+        when(profesionalRepository.save(any(Profesional.class))).thenReturn(profesional);
 
         // Act
-        Profesional result = profesionalService.saveProfesional(profesional);
+        ProfesionalResponseDTO result = profesionalService.saveProfesional(requestDTO);
 
         // Assert
         assertThat(result)
-                .isNotNull()
-                .isEqualTo(profesional);
+                .isNotNull();
+        assertThat(result.getNombre()).isEqualTo("Dr. Juan Perez");
+        assertThat(result.getDescripcion()).isEqualTo("Cardiólogo especialista");
         verify(profesionalRepository, times(1)).existsByNombre("Dr. Juan Perez");
-        verify(profesionalRepository, times(1)).save(profesional);
+        verify(profesionalRepository, times(1)).save(any(Profesional.class));
     }
 
     @Test
@@ -151,8 +167,8 @@ class ProfesionalServiceTest {
         when(profesionalRepository.existsByNombre("Dr. Juan Perez")).thenReturn(true);
 
         // Act & Assert
-        assertThatThrownBy(() -> profesionalService.saveProfesional(profesional))
-                .isInstanceOf(Exception.class)
+        assertThatThrownBy(() -> profesionalService.saveProfesional(requestDTO))
+                .isInstanceOf(DuplicateProfesionalException.class)
                 .hasMessageContaining("Ya existe un profesional con el nombre");
         verify(profesionalRepository, times(1)).existsByNombre("Dr. Juan Perez");
         verify(profesionalRepository, never()).save(profesional);
@@ -181,13 +197,13 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findAll()).thenReturn(allProfesionales);
 
         // Act
-        List<Profesional> result = profesionalService.getRandomProfesionales(2);
+        List<ProfesionalResponseDTO> result = profesionalService.getRandomProfesionales(2);
 
         // Assert
         assertThat(result)
                 .isNotNull()
                 .hasSize(2)
-                .allMatch(p -> allProfesionales.contains(p));
+                .allMatch(p -> allProfesionales.stream().anyMatch(e -> e.getNombre().equals(p.getNombre())));
         verify(profesionalRepository, times(1)).findAll();
     }
 
@@ -202,13 +218,14 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findAll()).thenReturn(allProfesionales);
 
         // Act
-        List<Profesional> result = profesionalService.getRandomProfesionales(10);
+        List<ProfesionalResponseDTO> result = profesionalService.getRandomProfesionales(10);
 
         // Assert
         assertThat(result)
                 .isNotNull()
                 .hasSize(2)
-                .containsExactlyInAnyOrderElementsOf(allProfesionales);
+                .extracting(ProfesionalResponseDTO::getNombre)
+                .containsExactlyInAnyOrder("Dr. Juan Perez", "Dra. Maria Gonzalez");
         verify(profesionalRepository, times(1)).findAll();
     }
 
@@ -219,10 +236,20 @@ class ProfesionalServiceTest {
         when(profesionalRepository.findAll()).thenReturn(Arrays.asList());
 
         // Act
-        List<Profesional> result = profesionalService.getRandomProfesionales(5);
+        List<ProfesionalResponseDTO> result = profesionalService.getRandomProfesionales(5);
 
         // Assert
         assertThat(result).isNotNull().isEmpty();
         verify(profesionalRepository, times(1)).findAll();
+    }
+
+    private ProfesionalResponseDTO toResponseDTO(Profesional profesional) {
+        return new ProfesionalResponseDTO(
+                profesional.getId(),
+                profesional.getNombre(),
+                profesional.getDescripcion(),
+                profesional.getProfesion(),
+                profesional.getImagenes()
+        );
     }
 }

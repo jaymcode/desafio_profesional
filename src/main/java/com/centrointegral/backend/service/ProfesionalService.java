@@ -1,6 +1,10 @@
 package com.centrointegral.backend.service;
 
+import com.centrointegral.backend.dto.ProfesionalRequestDTO;
+import com.centrointegral.backend.dto.ProfesionalResponseDTO;
 import com.centrointegral.backend.entity.Profesional;
+import com.centrointegral.backend.exception.DuplicateProfesionalException;
+import com.centrointegral.backend.exception.InvalidProfesionalException;
 import com.centrointegral.backend.repository.ProfesionalRepository;
 import com.centrointegral.backend.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +23,21 @@ public class ProfesionalService {
     @Autowired
     private ProfesionalRepository profesionalRepository;
 
-    public List<Profesional> getAllProfesionales() {
-        return profesionalRepository.findAll();
+    public List<ProfesionalResponseDTO> getAllProfesionales() {
+        return profesionalRepository.findAll().stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
-    public Page<Profesional> getProfesionalesPaged(int page, int size) {
+    public Page<ProfesionalResponseDTO> getProfesionalesPaged(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return profesionalRepository.findAll(pageable);
+        return profesionalRepository.findAll(pageable).map(this::toResponseDTO);
     }
 
-    public List<Profesional> getRandomProfesionales(int limit) {
+    public List<ProfesionalResponseDTO> getRandomProfesionales(int limit) {
         List<Profesional> all = profesionalRepository.findAll();
         if (all.size() <= limit) {
-            return all;
+            return all.stream().map(this::toResponseDTO).toList();
         }
         Random random = new Random();
         List<Profesional> randomList = new java.util.ArrayList<>();
@@ -41,52 +47,63 @@ public class ProfesionalService {
                 randomList.add(p);
             }
         }
-        return randomList;
+        return randomList.stream().map(this::toResponseDTO).toList();
     }
 
-    public Optional<Profesional> getProfesionalById(Long id) {
-        return profesionalRepository.findById(id);
+    public Optional<ProfesionalResponseDTO> getProfesionalById(Long id) {
+        return profesionalRepository.findById(id).map(this::toResponseDTO);
     }
 
     /**
      * Save a profesional with input validation and sanitization
      * Prevents XSS, image injection, and invalid data
      */
-    public Profesional saveProfesional(Profesional profesional) throws Exception {
+    public ProfesionalResponseDTO saveProfesional(ProfesionalRequestDTO requestDTO) {
         // Validate all required fields
-        if (!ValidationUtil.isValidNombre(profesional.getNombre())) {
-            throw new IllegalArgumentException("El nombre debe tener entre 1 y 255 caracteres");
+        if (!ValidationUtil.isValidNombre(requestDTO.getNombre())) {
+            throw new InvalidProfesionalException("El nombre debe tener entre 1 y 255 caracteres");
         }
 
-        if (!ValidationUtil.isValidDescripcion(profesional.getDescripcion())) {
-            throw new IllegalArgumentException("La descripción debe tener entre 1 y 5000 caracteres");
+        if (!ValidationUtil.isValidDescripcion(requestDTO.getDescripcion())) {
+            throw new InvalidProfesionalException("La descripción debe tener entre 1 y 5000 caracteres");
         }
 
-        if (!ValidationUtil.isValidProfession(profesional.getProfesion())) {
-            throw new IllegalArgumentException("La profesión debe ser una de: Kinesiología, Fisiatría, Fonoaudiología, Psicopedagogía, Pediatría");
+        if (!ValidationUtil.isValidProfession(requestDTO.getProfesion())) {
+            throw new InvalidProfesionalException("La profesión debe ser una de: Kinesiología, Fisiatría, Fonoaudiología, Psicopedagogía, Pediatría");
         }
 
         // Check for duplicate nombre
-        if (profesionalRepository.existsByNombre(profesional.getNombre())) {
-            throw new Exception("Ya existe un profesional con el nombre: " + profesional.getNombre());
+        if (profesionalRepository.existsByNombre(requestDTO.getNombre())) {
+            throw new DuplicateProfesionalException("Ya existe un profesional con el nombre: " + requestDTO.getNombre());
         }
 
         // Sanitize HTML content to prevent XSS
-        String sanitizedNombre = ValidationUtil.sanitizeInput(profesional.getNombre());
-        String sanitizedDescripcion = ValidationUtil.sanitizeInput(profesional.getDescripcion());
+        String sanitizedNombre = ValidationUtil.sanitizeInput(requestDTO.getNombre());
+        String sanitizedDescripcion = ValidationUtil.sanitizeInput(requestDTO.getDescripcion());
 
         // Validate and filter image URLs
-        List<String> validatedImagenes = ValidationUtil.validateImageUrls(profesional.getImagenes());
+        List<String> validatedImagenes = ValidationUtil.validateImageUrls(requestDTO.getImagenes());
 
-        // Set sanitized and validated data
+        Profesional profesional = new Profesional();
         profesional.setNombre(sanitizedNombre);
         profesional.setDescripcion(sanitizedDescripcion);
+        profesional.setProfesion(requestDTO.getProfesion());
         profesional.setImagenes(validatedImagenes);
 
-        return profesionalRepository.save(profesional);
+        return toResponseDTO(profesionalRepository.save(profesional));
     }
 
     public void deleteProfesional(Long id) {
         profesionalRepository.deleteById(id);
+    }
+
+    private ProfesionalResponseDTO toResponseDTO(Profesional profesional) {
+        return new ProfesionalResponseDTO(
+                profesional.getId(),
+                profesional.getNombre(),
+                profesional.getDescripcion(),
+                profesional.getProfesion(),
+                profesional.getImagenes()
+        );
     }
 }
