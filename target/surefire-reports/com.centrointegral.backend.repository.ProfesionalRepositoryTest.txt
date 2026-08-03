@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.centrointegral.backend.repository.ProfesionalRepositoryTest
 -------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.465 s -- in com.centrointegral.backend.repository.ProfesionalRepositoryTest
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.098 s -- in com.centrointegral.backend.repository.ProfesionalRepositoryTest

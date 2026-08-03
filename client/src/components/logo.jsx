@@ -1,4 +1,4 @@
-import logo from '../assets/cimlogo.png';
+import logo from '../assets/cimlogosinfo2.png';
 
 function Logo() {
   return (

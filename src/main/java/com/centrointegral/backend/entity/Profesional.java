@@ -26,8 +26,6 @@ public class Profesional {
 
     @NotBlank(message = "La profesión es requerida")
     @Size(min = 1, max = 255, message = "La profesión debe tener entre 1 y 255 caracteres")
-    @Pattern(regexp = "^(Kinesiología|Fisiatría|Fonoaudiología|Psicopedagogía|Pediatría)$",
-            message = "La profesión debe ser una de: Kinesiología, Fisiatría, Fonoaudiología, Psicopedagogía, Pediatría")
     private String profesion;
 
     @NotEmpty(message = "Debe incluir al menos una imagen")

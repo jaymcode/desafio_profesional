@@ -99,7 +99,16 @@ const ProfesionalDetail = () => {
             <h1 className="detail-title">{profesional.nombre}</h1>
             <div className="profession-badge">{profesional.profesion}</div>
             <p className="detail-description">{DOMPurify.sanitize(profesional.descripcion)}</p>
-            <button className="book-button">Reservar turno</button>
+            <button className="book-button" onClick={() => {
+              if (!user) {
+                navigate('/login', { state: { from: `/profesional/${id}` } });
+                return;
+              }
+
+              navigate('/mis-turnos', { state: { from: `/profesional/${id}` } });
+            }}>
+              Reservar turno
+            </button>
           </section>
         </div>
       </div>

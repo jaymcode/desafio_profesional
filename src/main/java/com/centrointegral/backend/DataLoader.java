@@ -1,7 +1,9 @@
 package com.centrointegral.backend;
 
 import com.centrointegral.backend.entity.Profesional;
+import com.centrointegral.backend.entity.Usuario;
 import com.centrointegral.backend.repository.ProfesionalRepository;
+import com.centrointegral.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,9 @@ public class DataLoader implements CommandLineRunner {
 
     @Autowired
     private ProfesionalRepository profesionalRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -132,6 +137,17 @@ public class DataLoader implements CommandLineRunner {
             profesionalRepository.save(p8);
 
             System.out.println("✅ 8 profesionales de ejemplo cargados en la base de datos");
+        }
+
+        if (usuarioRepository.count() == 0) {
+            Usuario demoUser = new Usuario(
+                "Usuario",
+                "Demo",
+                "demo@centrointegral.com",
+                "Demo123!"
+            );
+            usuarioRepository.save(demoUser);
+            System.out.println("✅ Usuario de prueba creado para login: demo@centrointegral.com / Demo123!");
         }
     }
 }

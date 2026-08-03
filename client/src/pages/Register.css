@@ -1,0 +1,75 @@
+.register-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+.register-card h1 {
+  margin-bottom: 0.5rem;
+  color: #173b6c;
+}
+
+.register-card p {
+  margin-bottom: 1.25rem;
+  color: #5b6472;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.register-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: #23364f;
+}
+
+.register-form input {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #d6dbe3;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #2b6df6;
+  box-shadow: 0 0 0 3px rgba(43, 109, 246, 0.15);
+}
+
+.register-error {
+  color: #c0392b;
+  font-weight: 600;
+  margin: 0.25rem 0;
+}
+
+.register-success {
+  color: #1f7a1f;
+  font-weight: 600;
+  margin: 0.25rem 0;
+}
+
+.register-link {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.register-link a {
+  color: #2b6df6;
+  font-weight: 600;
+}

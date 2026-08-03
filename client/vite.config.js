@@ -8,6 +8,11 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+    setupFiles: './src/test/setup.js'
+  },
   server: {
     // Security headers for development
     headers: {

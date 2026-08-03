@@ -1,3 +1,4 @@
+com\centrointegral\backend\DataLoaderTest.class
 com\centrointegral\backend\exception\GlobalExceptionHandlerTest.class
 com\centrointegral\backend\repository\ProfesionalRepositoryTest.class
 com\centrointegral\backend\service\ProfesionalServiceTest.class

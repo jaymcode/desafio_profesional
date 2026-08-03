@@ -34,6 +34,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
+    @ExceptionHandler(InvalidUsuarioException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidUsuarioException(InvalidUsuarioException ex) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(DuplicateUsuarioException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateUsuarioException(DuplicateUsuarioException ex) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         ErrorResponse error = new ErrorResponse(

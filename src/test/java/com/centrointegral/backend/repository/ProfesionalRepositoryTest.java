@@ -1,6 +1,7 @@
 package com.centrointegral.backend.repository;
 
 import com.centrointegral.backend.entity.Profesional;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,8 @@ class ProfesionalRepositoryTest {
     void setUp() {
         imagenes = Arrays.asList("image1.jpg", "image2.jpg");
         
-        profesional1 = new Profesional("Dr. Juan Perez", "Cardiólogo especialista", "Cardiología", imagenes);
-        profesional2 = new Profesional("Dra. Maria Gonzalez", "Pediatra experiente", "Pediatría", imagenes);
+        profesional1 = new Profesional("Dr. Juan Perez", "Especialista en rehabilitación", "Kinesiología", imagenes);
+        profesional2 = new Profesional("Dra. Maria Gonzalez", "Especialista en pediatría", "Pediatría", imagenes);
         
         profesionalRepository.deleteAll();
     }
@@ -46,7 +47,7 @@ class ProfesionalRepositoryTest {
         assertThat(saved)
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("nombre", "Dr. Juan Perez")
-                .hasFieldOrPropertyWithValue("profesion", "Cardiología");
+                .hasFieldOrPropertyWithValue("profesion", "Kinesiología");
         assertThat(saved.getId()).isNotNull().isPositive();
     }
 
@@ -64,7 +65,7 @@ class ProfesionalRepositoryTest {
                 .isPresent()
                 .hasValueSatisfying(p -> {
                     assertThat(p.getNombre()).isEqualTo("Dr. Juan Perez");
-                    assertThat(p.getProfesion()).isEqualTo("Cardiología");
+                    assertThat(p.getProfesion()).isEqualTo("Kinesiología");
                 });
     }
 
@@ -92,7 +93,7 @@ class ProfesionalRepositoryTest {
                 .isPresent()
                 .hasValueSatisfying(p -> {
                     assertThat(p.getNombre()).isEqualTo("Dr. Juan Perez");
-                    assertThat(p.getProfesion()).isEqualTo("Cardiología");
+                    assertThat(p.getProfesion()).isEqualTo("Kinesiología");
                 });
     }
 
@@ -176,7 +177,7 @@ class ProfesionalRepositoryTest {
     void testSaveProfesionalWithMultipleImages() {
         // Arrange
         List<String> multipleImages = Arrays.asList("img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg");
-        Profesional prof = new Profesional("Dr. With Images", "Specialist", "Specialization", multipleImages);
+        Profesional prof = new Profesional("Dr. With Images", "Especialista", "Kinesiología", multipleImages);
 
         // Act
         Profesional saved = profesionalRepository.save(prof);
@@ -192,18 +193,13 @@ class ProfesionalRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should handle null images collection")
+    @DisplayName("Should reject a professional with null images")
     void testSaveProfesionalWithNullImages() {
         // Arrange
-        Profesional prof = new Profesional("Dr. No Images", "Specialist", "Specialization", null);
+        Profesional prof = new Profesional("Dr. No Images", "Especialista", "Kinesiología", null);
 
-        // Act
-        Profesional saved = profesionalRepository.save(prof);
-
-        // Assert
-        Optional<Profesional> found = profesionalRepository.findById(saved.getId());
-        assertThat(found)
-                .isPresent()
-                .hasValueSatisfying(p -> assertThat(p.getImagenes()).isNull());
+        // Act / Assert
+        assertThatThrownBy(() -> profesionalRepository.save(prof))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 }
